@@ -243,7 +243,7 @@ def calculate_microstate_pka_values(
         query_model = QueryModel()
 
     if only_dimorphite:
-        print(
+        logger.debug(
             "BEWARE! This is experimental and might generate wrong protonation states."
         )
         logger.debug("Using dimorphite-dl to enumerate protonation states.")
@@ -294,7 +294,7 @@ def calculate_microstate_pka_values(
         logger.debug(mols)
 
     else:
-        logger.info("Using dimorphite-dl to identify protonation sites.")
+        logger.debug("Using dimorphite-dl to identify protonation sites.")
         mol_at_ph_7 = _call_dimorphite_dl(mol, min_ph=7.0, max_ph=7.0, pka_precision=0)
         assert len(mol_at_ph_7) == 1
         mol_at_ph_7 = mol_at_ph_7[0]
@@ -308,7 +308,7 @@ def calculate_microstate_pka_values(
 
         acids = []
         mol_at_state = deepcopy(mol_at_ph_7)
-        print(f"Proposed mol at pH 7.4: {Chem.MolToSmiles(mol_at_state)}")
+        logger.debug(f"Proposed mol at pH 7.4: {Chem.MolToSmiles(mol_at_state)}")
 
         used_reaction_center_atom_idxs = deepcopy(reaction_center_atom_idxs)
         logger.debug("Start with acids ...")
