@@ -481,7 +481,7 @@ class LoadSMIFile(object):
             if mol is None:
                 if "silent" in self.args and not self.args["silent"]:
                     UtilFuncs.eprint(
-                        "WARNING: Skipping poorly formed SMILES string: " + line
+                        "WARNING: Skipping SMILES while converting to Mol UtilFuncs.convert_smiles_str_to_mol: " + line
                     )
                 return self.next()
 
@@ -490,7 +490,7 @@ class LoadSMIFile(object):
             if mol is None:
                 if "silent" in self.args and not self.args["silent"]:
                     UtilFuncs.eprint(
-                        "WARNING: Skipping poorly formed SMILES string: " + line
+                        "WARNING: Skipping SMILES while neutralizing UtilFuncs.neutralize_mol: " + line
                     )
                 return self.next()
 
@@ -500,14 +500,14 @@ class LoadSMIFile(object):
             except:
                 if "silent" in self.args and not self.args["silent"]:
                     UtilFuncs.eprint(
-                        "WARNING: Skipping poorly formed SMILES string: " + line
+                        "WARNING: Skipping SMILES whole removing hydrogens Chem.RemoveHs: " + line
                     )
                 return self.next()
 
             if mol is None:
                 if "silent" in self.args and not self.args["silent"]:
                     UtilFuncs.eprint(
-                        "WARNING: Skipping poorly formed SMILES string: " + line
+                        "WARNING: Skipping SMILES since it's None at the end of cleaning and canonizing: " + line
                     )
                 return self.next()
 
@@ -914,7 +914,7 @@ class ProtSubstructFuncs:
                 except:
                     if "silent" in ProtSubstructFuncs.args and not ProtSubstructFuncs.args["silent"]:
                         UtilFuncs.eprint(
-                            "WARNING: Skipping poorly formed SMILES string: "
+                            "WARNING: Skipping SMILES while removing hydrogens : "
                             + Chem.MolToSmiles(mol_copy)
                         )
                     continue
