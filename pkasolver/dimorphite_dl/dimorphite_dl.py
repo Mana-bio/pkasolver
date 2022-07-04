@@ -479,36 +479,21 @@ class LoadSMIFile(object):
             # into a canonical form. Filter if failed.
             mol = UtilFuncs.convert_smiles_str_to_mol(smiles_str)
             if mol is None:
-                if "silent" in self.args and not self.args["silent"]:
-                    UtilFuncs.eprint(
-                        "WARNING: Skipping SMILES while converting to Mol UtilFuncs.convert_smiles_str_to_mol: " + line
-                    )
                 return self.next()
 
             # Handle nuetralizing the molecules. Filter if failed.
             mol = UtilFuncs.neutralize_mol(mol)
             if mol is None:
-                if "silent" in self.args and not self.args["silent"]:
-                    UtilFuncs.eprint(
-                        "WARNING: Skipping SMILES while neutralizing UtilFuncs.neutralize_mol: " + line
-                    )
                 return self.next()
 
             # Remove the hydrogens.
             try:
                 mol = Chem.RemoveHs(mol)
             except:
-                if "silent" in self.args and not self.args["silent"]:
-                    UtilFuncs.eprint(
-                        "WARNING: Skipping SMILES whole removing hydrogens Chem.RemoveHs: " + line
-                    )
                 return self.next()
 
             if mol is None:
                 if "silent" in self.args and not self.args["silent"]:
-                    UtilFuncs.eprint(
-                        "WARNING: Skipping SMILES since it's None at the end of cleaning and canonizing: " + line
-                    )
                 return self.next()
 
             # Regenerate the smiles string (to standardize).
@@ -629,14 +614,6 @@ class Protonate(object):
                 new_mols = ProtSubstructFuncs.protonate_site(new_mols, site)
                 if len(new_mols) > self.args["max_variants"]:
                     new_mols = new_mols[: self.args["max_variants"]]
-                    if "silent" in self.args and not self.args["silent"]:
-                        UtilFuncs.eprint(
-                            "WARNING: Limited number of variants to "
-                            + str(self.args["max_variants"])
-                            + ": "
-                            + orig_smi
-                        )
-
                 # Go through each of these new molecules and add them to the
                 # properly_formed_smi_found, in case you generate a poorly
                 # formed SMILES in the future and have to "rewind."
@@ -912,11 +889,6 @@ class ProtSubstructFuncs:
                 try:
                     mol_copy = Chem.RemoveHs(mol_copy)
                 except:
-                    if "silent" in ProtSubstructFuncs.args and not ProtSubstructFuncs.args["silent"]:
-                        UtilFuncs.eprint(
-                            "WARNING: Skipping SMILES while removing hydrogens : "
-                            + Chem.MolToSmiles(mol_copy)
-                        )
                     continue
 
                 atom = mol_copy.GetAtomWithIdx(idx)
