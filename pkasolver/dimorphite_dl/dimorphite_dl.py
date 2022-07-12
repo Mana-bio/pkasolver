@@ -494,7 +494,7 @@ class LoadSMIFile(object):
 
             if mol is None:
                 if "silent" in self.args and not self.args["silent"]:
-                return self.next()
+                    return self.next()
 
             # Regenerate the smiles string (to standardize).
             new_mol_string = Chem.MolToSmiles(mol, isomericSmiles=True)
