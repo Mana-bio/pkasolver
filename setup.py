@@ -46,7 +46,6 @@ setup(
     # url='http://www.my_package.com',  # Website
     install_requires=[
         "rdkit",
-        "matplotlib",
         "numpy",
         "tqdm",
         "torch-geometric==2.0.1",
