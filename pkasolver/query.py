@@ -6,6 +6,7 @@ from operator import attrgetter
 from os import path
 
 import cairosvg
+from dimorphite_dl.dimorphite_dl import run_with_mol_list
 import numpy as np
 import svgutils.transform as sg
 import torch
@@ -166,44 +167,17 @@ def _get_ionization_indices(mol_list: list, compare_to: Chem.Mol) -> list:
     return list_of_reaction_centers
 
 
-def _parse_dimorphite_dl_output():
-    import pickle
-
-    mols = pickle.load(open("test.pkl", "rb"))
-    return mols
-
-
 def _call_dimorphite_dl(
     mol: Chem.Mol, min_ph: float, max_ph: float, pka_precision: float = 1.0
 ):
     """calls  dimorphite_dl with parameters"""
-    import subprocess
-
-    # get path to script
-    path_to_script = path.dirname(__file__)
-    smiles = Chem.MolToSmiles(mol, isomericSmiles=True)
-    # save properties
-    props = mol.GetPropsAsDict()
-
-    o = subprocess.run(
-        [
-            "python",
-            f"{path_to_script}/scripts/call_dimorphite_dl.py",
-            "--smiles",  # only most probable tautomer generated
-            f"{smiles}",  # don't adjust the ionization state of the molecule
-            "--min_ph",
-            f"{min_ph}",
-            "--max_ph",
-            f"{max_ph}",
-            "--pka_precision",
-            f"{pka_precision}",
-        ],
-        stderr=subprocess.STDOUT,
+    
+    return run_with_mol_list(
+        [mol],
+        min_ph=float(min_ph),
+        max_ph=float(max_ph),
+        pka_precision=float(pka_precision),
     )
-    o.check_returncode()
-    # get list of smiles
-    mols = _parse_dimorphite_dl_output()
-    return mols
 
 
 def _sort_conj(mols: list):
@@ -239,7 +213,7 @@ def calculate_microstate_pka_values(
 ):
     """Enumerate protonation states using a rdkit mol as input"""
 
-    if query_model == None:
+    if query_model is None:
         query_model = QueryModel()
 
     if only_dimorphite:

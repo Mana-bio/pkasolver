@@ -1,4 +1,4 @@
-name: pka_prediction
+name: pkasolver
 channels:
  - pytorch
  - conda-forge
@@ -28,3 +28,4 @@ dependencies:
      - torch-scatter
      - molvs
      - chembl_webresource_client 
+     - git+https://github.com/Mana-bio/dimorphite_dl.git
