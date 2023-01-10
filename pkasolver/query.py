@@ -5,11 +5,9 @@ from dataclasses import dataclass
 from operator import attrgetter
 from os import path
 
-import cairosvg
-from dimorphite_dl.dimorphite_dl import run_with_mol_list
 import numpy as np
-import svgutils.transform as sg
 import torch
+from dimorphite_dl.dimorphite_dl import run_with_mol_list
 from rdkit import Chem, RDLogger
 from rdkit.Chem import Draw
 from torch_geometric.loader import DataLoader
@@ -72,7 +70,7 @@ class QueryModel:
                 num_node_features, num_edge_features, hidden_channels=96
             )
             base_path = path.dirname(__file__)
-            if torch.cuda.is_available() == False:  # If only CPU is available
+            if not torch.cuda.is_available():  # If only CPU is available
                 checkpoint = torch.load(
                     f"{base_path}/trained_model_without_epik/best_model_{i}.pt",
                     map_location=torch.device("cpu"),
@@ -171,7 +169,7 @@ def _call_dimorphite_dl(
     mol: Chem.Mol, min_ph: float, max_ph: float, pka_precision: float = 1.0
 ):
     """calls  dimorphite_dl with parameters"""
-    
+
     return run_with_mol_list(
         [mol],
         min_ph=float(min_ph),
@@ -293,7 +291,10 @@ def calculate_microstate_pka_values(
             for i in used_reaction_center_atom_idxs:
                 try:
                     conj = create_conjugate(
-                        mol_at_state, i, pka=0.0, known_pka_values=False,
+                        mol_at_state,
+                        i,
+                        pka=0.0,
+                        known_pka_values=False,
                     )
                 except:
                     continue
@@ -463,6 +464,8 @@ def draw_pka_reactions(
     Draws protonation states.
     file can be saved as png using `write_png_to_file` parameter.
     """
+    import cairosvg
+    import svgutils.transform as sg
     from IPython.display import SVG
 
     draw_pairs, pair_atoms, legend = [], [], []
