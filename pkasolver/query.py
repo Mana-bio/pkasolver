@@ -7,7 +7,7 @@ from os import path
 
 import numpy as np
 import torch
-from dimorphite_dl.dimorphite_dl import run_with_mol_list
+from dimorphite_dl import dimorphite_dl
 from rdkit import Chem, RDLogger
 from rdkit.Chem import Draw
 from torch_geometric.loader import DataLoader
@@ -170,7 +170,7 @@ def _call_dimorphite_dl(
 ):
     """calls  dimorphite_dl with parameters"""
 
-    return run_with_mol_list(
+    return dimorphite_dl.run_with_mol_list(
         [mol],
         min_ph=float(min_ph),
         max_ph=float(max_ph),

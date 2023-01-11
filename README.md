@@ -18,6 +18,8 @@ We recommend using anaconda to set up a new repository (https://docs.conda.io/pr
 This can be done with `conda env create -f devtools/conda-envs/test_env.yaml` (the conda environment will be called `test` --- if you want a different name change the first line in `test_env.yaml`).
 After activating the conda environment the package can be installed with `python setup.py install`.
 
+Alternatively, you can install the package with `python setup.py install` and then `pip install -r requirements.txt`.
+
 ## How to use pkasolver to predict microstate pka values
 
 Depending on your needs you can either use the juptyer notebook deposited in the `notebooks` directory which demonstrate the usage of the pkasolver package (this needs a local installation of the pkasolver package).
