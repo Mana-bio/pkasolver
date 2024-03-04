@@ -49,7 +49,7 @@ setup(
         "numpy",
         "tqdm",
         "torch-geometric==2.0.1",
-        "dimorphite_dl @ git+https://github.com/Mana-bio/dimorphite_dl.git#b34eccf66ddf588cea4079e5a5c86a3663c43c9d",
+        "dimorphite_dl @ git+https://github.com/Mana-bio/dimorphite_dl",
     ],  # Required packages, pulls from pip if needed; do not use for Conda deployment
     # platforms=['Linux',
     #            'Mac OS-X',
